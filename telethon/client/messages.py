@@ -7,7 +7,7 @@ from .. import helpers, utils, errors, hints
 from ..requestiter import RequestIter
 from ..tl import types, functions
 
-_MAX_CHUNK_SIZE = 100
+_MAX_CHUNK_SIZE = 1000
 
 if typing.TYPE_CHECKING:
     from .telegramclient import TelegramClient
@@ -268,7 +268,7 @@ class _IDsIter(RequestIter):
 
         # 30s flood wait every 300 messages (3 requests of 100 each, 30 of 10, etc.)
         if self.wait_time is None:
-            self.wait_time = 10 if self.limit > 300 else 0
+            self.wait_time = 0 if self.limit > 300 else 0
 
     async def _load_next_chunk(self):
         ids = self._ids[self._offset:self._offset + _MAX_CHUNK_SIZE]
